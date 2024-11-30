@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Register = () => {
   const [formData, setFormData] = useState({ username: '', email: '', password: '' });
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -16,6 +18,7 @@ const Register = () => {
     try {
       await axios.post('http://127.0.0.1:8000/api/accounts/register/', formData);
       alert('Usuario registrado con éxito');
+      navigate('/dashboard');
     } catch (error) {
       console.error(error.response?.data || error.message);
       alert('Error al registrar: ' + (error.response?.data || error.message));
